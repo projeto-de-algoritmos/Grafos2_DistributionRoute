@@ -23,26 +23,31 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _UnBGama,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        markers: Set<Marker>.of(Global.markers),
-        onLongPress: (latLng) async {
-          await showRegisterDialog(context, latLng);
-          print('${latLng.latitude}, ${latLng.longitude}');
-          print(Controller.distanceBetweenPoints(
-              Global.markers[0], Global.markers[1]));
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: nextStop,
-        label: Text('Próxima Parada!'),
-        icon: Icon(Icons.directions_boat),
-      ),
+    return ValueListenableBuilder<bool>(
+      valueListenable: Global.needRefresh,
+      builder: (BuildContext context, bool needRefresh, Widget? child) {
+        return Scaffold(
+          body: GoogleMap(
+            mapType: MapType.hybrid,
+            initialCameraPosition: _UnBGama,
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            markers: Set<Marker>.of(Global.markers),
+            onLongPress: (latLng) async {
+              await showRegisterDialog(context, latLng);
+              print('${latLng.latitude}, ${latLng.longitude}');
+              print(Controller.distanceBetweenPoints(
+                  Global.markers[0], Global.markers[1]));
+            },
+          ),
+          floatingActionButton: FloatingActionButton.extended(
+            onPressed: nextStop,
+            label: Text('Próxima Parada!'),
+            icon: Icon(Icons.directions_boat),
+          ),
+        );
+      },
     );
   }
 
@@ -61,7 +66,9 @@ class MapSampleState extends State<MapSample> {
       backgroundColor: Colors.transparent,
       context: context,
       builder: (BuildContext context) {
-        return BottomSheetDialog();
+        return BottomSheetDialog(
+          latLgn: latLng,
+        );
       },
     );
   }

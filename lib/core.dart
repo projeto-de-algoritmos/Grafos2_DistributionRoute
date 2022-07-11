@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Global {
@@ -9,4 +10,6 @@ class Global {
       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
     ),
   ];
+
+  static ValueNotifier<bool> needRefresh = ValueNotifier(false);
 }

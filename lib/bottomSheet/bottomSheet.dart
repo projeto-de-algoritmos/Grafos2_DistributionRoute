@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:grafos2_app/bottomSheet/listItem.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:grafos2_app/controller.dart';
+import 'package:grafos2_app/core.dart';
+import 'package:grafos2_app/main.dart';
 
 class BottomSheetDialog extends StatefulWidget {
-  const BottomSheetDialog({Key? key}) : super(key: key);
+  const BottomSheetDialog({Key? key, required this.latLgn}) : super(key: key);
+
+  final LatLng latLgn;
 
   @override
   State<BottomSheetDialog> createState() => _BottomSheetDialogState();
@@ -42,7 +46,21 @@ class _BottomSheetDialogState extends State<BottomSheetDialog> {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              Global.markers.add(
+                Marker(
+                    markerId: MarkerId(Controller.textController.value.text),
+                    position:
+                        LatLng(widget.latLgn.latitude, widget.latLgn.longitude),
+                    infoWindow:
+                        InfoWindow(title: Controller.textController.value.text),
+                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueRed)),
+              );
+              Controller.textController.clear();
+              Global.needRefresh.value = !Global.needRefresh.value;
+              Navigator.pop(context);
+            },
             color: Colors.blue,
             child: Text("Adicionar!"),
             textColor: Colors.white,
