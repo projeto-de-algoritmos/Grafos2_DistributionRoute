@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:grafos2_app/core.dart';
 
 class ListItem extends StatefulWidget {
   const ListItem({Key? key, required this.mark}) : super(key: key);
@@ -31,6 +32,10 @@ class _ListItemState extends State<ListItem> {
         ),
         onPressed: () {
           isSelected = !isSelected;
+          if (isSelected)
+            Global.selectedMarkers.add(widget.mark);
+          else
+            Global.selectedMarkers.remove(widget.mark);
           setState(() {});
         },
       ),

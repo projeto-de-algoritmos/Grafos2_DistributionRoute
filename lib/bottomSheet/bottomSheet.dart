@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:grafos2_app/controller.dart';
 import 'package:grafos2_app/core.dart';
+import 'package:grafos2_app/grafo.dart';
 import 'package:grafos2_app/main.dart';
 
 class BottomSheetDialog extends StatefulWidget {
@@ -47,19 +48,22 @@ class _BottomSheetDialogState extends State<BottomSheetDialog> {
           ),
           MaterialButton(
             onPressed: () {
-              Global.markers.add(
-                Marker(
-                    markerId: MarkerId(Controller.textController.value.text),
-                    position:
-                        LatLng(widget.latLgn.latitude, widget.latLgn.longitude),
-                    infoWindow:
-                        InfoWindow(title: Controller.textController.value.text),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueRed)),
-              );
+              if (Global.selectedMarkers.isEmpty) return;
+              Marker newMarker = Marker(
+                  markerId: MarkerId(Controller.textController.value.text),
+                  position:
+                      LatLng(widget.latLgn.latitude, widget.latLgn.longitude),
+                  infoWindow:
+                      InfoWindow(title: Controller.textController.value.text),
+                  icon: BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueRed));
+              Global.markers.add(newMarker);
+              Grafo.addVerticeToGraph(Controller.textController.value.text);
               Controller.textController.clear();
               Global.markersCount.value = Global.markersCount.value + 1;
               Global.index = 0;
+              Grafo.addEdgesToGraph(newMarker);
+              Global.selectedMarkers = [];
               Navigator.pop(context);
             },
             color: Colors.blue,
