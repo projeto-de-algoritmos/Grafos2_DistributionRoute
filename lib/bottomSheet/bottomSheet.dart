@@ -58,7 +58,8 @@ class _BottomSheetDialogState extends State<BottomSheetDialog> {
                         BitmapDescriptor.hueRed)),
               );
               Controller.textController.clear();
-              Global.needRefresh.value = !Global.needRefresh.value;
+              Global.markersCount.value = Global.markersCount.value + 1;
+              Global.index = 0;
               Navigator.pop(context);
             },
             color: Colors.blue,

@@ -23,9 +23,9 @@ class MapSampleState extends State<MapSample> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: Global.needRefresh,
-      builder: (BuildContext context, bool needRefresh, Widget? child) {
+    return ValueListenableBuilder<int>(
+      valueListenable: Global.markersCount,
+      builder: (BuildContext context, int markersCount, Widget? child) {
         return Scaffold(
           body: GoogleMap(
             mapType: MapType.hybrid,
@@ -53,12 +53,16 @@ class MapSampleState extends State<MapSample> {
 
   Future<void> nextStop() async {
     final GoogleMapController controller = await _controller.future;
+    if (Global.index >= Global.markersCount.value) Global.index = 0;
+    Marker nextMarker = Global.markers.elementAt(Global.index);
     CameraPosition nextStop = CameraPosition(
         bearing: 192.8334901395799,
-        target: LatLng(0, 0),
+        target:
+            LatLng(nextMarker.position.latitude, nextMarker.position.longitude),
         tilt: 59.440717697143555,
         zoom: 19.151926040649414);
     controller.animateCamera(CameraUpdate.newCameraPosition(nextStop));
+    Global.index++;
   }
 
   showRegisterDialog(BuildContext contextPage, LatLng latLng) {

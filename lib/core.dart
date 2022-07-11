@@ -11,5 +11,7 @@ class Global {
     ),
   ];
 
-  static ValueNotifier<bool> needRefresh = ValueNotifier(false);
+  static ValueNotifier<int> markersCount = ValueNotifier(1);
+
+  static int index = 0;
 }
