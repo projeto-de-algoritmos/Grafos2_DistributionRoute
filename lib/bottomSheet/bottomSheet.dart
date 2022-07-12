@@ -49,8 +49,9 @@ class _BottomSheetDialogState extends State<BottomSheetDialog> {
           MaterialButton(
             onPressed: () {
               if (Global.selectedMarkers.isEmpty) return;
+              Global.counter++;
               Marker newMarker = Marker(
-                  markerId: MarkerId(Controller.textController.value.text),
+                  markerId: MarkerId(Global.counter.toString()),
                   position:
                       LatLng(widget.latLgn.latitude, widget.latLgn.longitude),
                   infoWindow:
@@ -58,11 +59,12 @@ class _BottomSheetDialogState extends State<BottomSheetDialog> {
                   icon: BitmapDescriptor.defaultMarkerWithHue(
                       BitmapDescriptor.hueRed));
               Global.markers.add(newMarker);
-              Grafo.addVerticeToGraph(Controller.textController.value.text);
+              Grafo.addVerticeToGraph(Global.counter.toString());
               Controller.textController.clear();
               Global.markersCount.value = Global.markersCount.value + 1;
               Global.index = 0;
               Grafo.addEdgesToGraph(newMarker);
+              Grafo.primAlgorithym();
               Global.selectedMarkers = [];
               Navigator.pop(context);
             },

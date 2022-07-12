@@ -36,9 +36,6 @@ class MapSampleState extends State<MapSample> {
             markers: Set<Marker>.of(Global.markers),
             onLongPress: (latLng) async {
               await showRegisterDialog(context, latLng);
-              print('${latLng.latitude}, ${latLng.longitude}');
-              print(Controller.distanceBetweenPoints(
-                  Global.markers[0], Global.markers[1]));
             },
           ),
           floatingActionButton: FloatingActionButton.extended(
@@ -54,7 +51,7 @@ class MapSampleState extends State<MapSample> {
   Future<void> nextStop() async {
     final GoogleMapController controller = await _controller.future;
     if (Global.index >= Global.markersCount.value) Global.index = 0;
-    Marker nextMarker = Global.markers.elementAt(Global.index);
+    Marker nextMarker = Global.orderedMarkers.elementAt(Global.index);
     CameraPosition nextStop = CameraPosition(
         bearing: 192.8334901395799,
         target:
