@@ -68,8 +68,6 @@ class Grafo {
             parent[int.parse(element.to.markerId.value)] = node0.vertex;
           }
         }
-
-        // Prints the vertex pair of mst
       });
     }
     for (var o = 1; o < Global.markersCount.value; o++)
